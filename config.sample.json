@@ -1,0 +1,10 @@
+{
+  "username": "theusername",
+  "password": "thepassword",
+  "genders": {
+    "HNZ": "male",
+    "HIN": "female",
+    "SND": "male",
+    "SER": "female"
+  }
+}
