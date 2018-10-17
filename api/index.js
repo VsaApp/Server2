@@ -40,8 +40,8 @@ app.get('/validate', (req, res) => {
 
 cafetoria.host(app);
 
-app.listen(80, () => {
-  console.log('Listening on *:' + 80);
+app.listen(9000, () => {
+  console.log('Listening on *:' + 9000);
 });
 
 const watcher = chokidar.watch(path.resolve(__dirname, '..', 'output'), {ignored: /^\./, persistent: true});
