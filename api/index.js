@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const chokidar = require('chokidar');
 const hashFiles = require('hash-files');
 const cafetoria = require('./cafetoria.js');
+const topic = require('./firebaseTopic.js');
 const app = express();
 
 let config = require('./config.js');
@@ -39,6 +40,7 @@ app.get('/validate', (req, res) => {
 });
 
 cafetoria.host(app);
+topic.host(app);
 
 app.listen(9000, () => {
   console.log('Listening on *:' + 9000);

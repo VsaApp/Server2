@@ -14,9 +14,24 @@ this.send = (topic, data) => {
       data: data
     }
   })
-    .catch((error) => {
+    .catch(error => {
       console.log('Error sending message:', error);
     });
 };
+
+this.subscribe = (token, topic) => {
+  admin.messaging().subscribeToTopic([token], topic)
+    .catch(error => {
+      console.log('Error subscribing to topic:', error);
+    });
+};
+
+this.unsubscribe = (token, topic) => {
+  admin.messaging().unsubscribeFromTopic([token], topic)
+    .catch(error => {
+      console.log('Error unsubscribing from topic:', error);
+    });
+};
+
 
 module.exports = this;
