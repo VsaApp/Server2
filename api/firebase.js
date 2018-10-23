@@ -9,14 +9,11 @@ admin.initializeApp({
 });
 
 this.send = (topic, data) => {
-  admin.messaging().sendToTopic('/topics/' + topic, {
+  return admin.messaging().sendToTopic('/topics/' + topic, {
     data: {
       data: data
     }
-  })
-    .catch(error => {
-      console.log('Error sending message:', error);
-    });
+  });
 };
 
 this.subscribe = (token, topic) => {

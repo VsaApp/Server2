@@ -107,7 +107,9 @@ this.getVP = (today, callback) => {
 										data.grade = text.split(' ')[0].slice(0, -1);
 										prevGrade = data.grade;
 									}
-									data.unit = parseInt(text.split(' ')[1].slice(0, -1));
+									try {
+										data.unit = parseInt(text.split(' ')[1].slice(0, -1));
+									} catch(e) {}
 								} else if (j === 1) {
 									text = text.replace(/\n/g, ' ').replace('(', '').replace(')', '');
 									while (text.includes('  ')) {
@@ -156,9 +158,11 @@ this.getVP = (today, callback) => {
 											}
 										}
 									} else {
-										data.lesson = text.split(' ')[1].toUpperCase();
-										data.type = text.split(' ')[2].toUpperCase();
-										data.room = text.split(' ')[3].toUpperCase();
+										try {
+											data.lesson = text.split(' ')[1].toUpperCase();
+											data.type = text.split(' ')[2].toUpperCase();
+											data.room = text.split(' ')[3].toUpperCase();
+										} catch(e) {}
 									}
 								} else {
 									text = text.replace('\n', ' ');
@@ -221,17 +225,20 @@ this.getVP = (today, callback) => {
 								.replace(/GRHA|GRH/, 'große Halle')
 								.replace('KU1', 'Kunst 1')
 								.replace('KU2', 'Kunst 2');
-							if (today) {
-								vpToday[data.grade].changes.push(data);
-							} else {
-								vpTomorrow[data.grade].changes.push(data);
-							}
+							try {
+								if (today) {
+									vpToday[data.grade].changes.push(data);
+								} else {
+									vpTomorrow[data.grade].changes.push(data);
+								}
+							} catch(e) {}
 						}
 					} catch
 						(e) {
 						console.log(e);
 					}
 
+					console.log('Downloaded vp of ' + (today ? 'today' : 'tomorrow'));
 					if (today) {
 						Object.keys(vpToday).forEach(grade => {
 							vpToday[grade].changes = vpToday[grade].changes.filter(el => {
@@ -249,9 +256,9 @@ this.getVP = (today, callback) => {
 						Object.keys(vpTomorrow).forEach(key => callback(key, vpTomorrow[key]));
 						resolve(Object.keys(vpTomorrow).map(key => ({grade: key, vp: vpTomorrow[key]})));
 					}
-					console.log('Downloaded vp of ' + (today ? 'today' : 'tomorrow'));
 				} else {
 					console.log('Vp of ' + (today ? 'today' : 'tomorrow') + ' not changed');
+					resolve([]);
 				}
 			}
 		).auth(config.username, config.password, false);
@@ -259,7 +266,8 @@ this.getVP = (today, callback) => {
 };
 
 this.onVPUpdate = (grade, data) => {
-	//firebase.send(grade, JSON.stringify(data));
+	console.log(grade);
+	firebase.send(grade, JSON.stringify(data));
 };
 
 this.getVP(true, this.onVPUpdate).then(vp => {
