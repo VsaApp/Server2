@@ -20,17 +20,11 @@ this.send = (topic, data) => {
 };
 
 this.subscribe = (token, topic) => {
-  admin.messaging().subscribeToTopic([token], topic)
-    .catch(error => {
-      console.log('Error subscribing to topic:', error);
-    });
+  return admin.messaging().subscribeToTopic([token], topic);
 };
 
 this.unsubscribe = (token, topic) => {
-  admin.messaging().unsubscribeFromTopic([token], topic)
-    .catch(error => {
-      console.log('Error unsubscribing from topic:', error);
-    });
+  return admin.messaging().unsubscribeFromTopic([token], topic)
 };
 
 
