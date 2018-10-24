@@ -65,7 +65,7 @@ this.readAGList = resolve => {
           } else if (s[k].toLowerCase().includes('gr. confis')) {
             o.grades = 'EF - Q2';
           } else if (s[k].toLowerCase().includes('raum') || s[k].toLowerCase().includes('r.') || s[k].toLowerCase().includes('comp.') || s[k].toLowerCase().includes('gr\ ha') || s[k].toLowerCase().includes('ghalle') || s[k].toLowerCase().includes('g halle') || s[k].toLowerCase().includes('aula') || s[k].toLowerCase().includes('beekstraße')) {
-            o.room = s[k].toLowerCase().replace('raum ', '').replace('r.', '').replace('comp.', '').replace(/gr ha|ghalle|g halle/g, 'Große Halle').replace('musikraum', 'Musikraum').replace('aula', 'Aula').replace('beekstraße', 'Beekstraße').replace(/\./g, '').trim();
+            o.room = s[k].toLowerCase().replace('raum ', '').replace('r.', '').replace('comp.', '').replace(/gr halle|gr ha|ghalle|g halle/g, 'Große Halle').replace('musikraum', 'Musikraum').replace('aula', 'Aula').replace('beekstraße', 'Beekstraße').replace(/\./g, '').trim();
           } else if (s[k].toLowerCase().includes('gst') || s[k].toLowerCase().includes('alle') || s[k].toLowerCase().includes('stufe') || s[k].toLowerCase().includes('kl.')) {
             let m = s[k].toLowerCase().replace('jgst.', '').replace('gst.', '').replace('ef', 'EF').replace('q1', 'Q1').replace('q2', 'Q2').replace('oberstufe', 'EF - Q2').replace('mittelstufe', '7 - 9').replace('unterstufe', '5 - 6').replace('alle', '5 - Q2').replace(/[1-2]\.hj/g, '').replace(/ +(?= )/g, '').replace('/', '-').trim();
             if (m.includes('kl.')) {
@@ -83,6 +83,18 @@ this.readAGList = resolve => {
           if (s[k].toLowerCase().includes('lehrer')) {
             o.grades = 'L';
           }
+        }
+        if (o.name.toLowerCase() === 'ags') {
+          continue;
+        }
+        if (o.name.toLowerCase().includes('bepa')) {
+          continue;
+        }
+        if (o.name.toLowerCase().includes('teens for kids')) {
+          continue;
+        }
+        if (o.name.toLowerCase().includes('hausaufgabenbetreuung')) {
+          continue;
         }
         ags[i].ags.push(o);
       }
