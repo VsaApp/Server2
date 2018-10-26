@@ -40,6 +40,7 @@ this.readAllSps = () => {
 this.readAllSps().then(allSp => {
 	let teachers = allSp.map(a => a.teacher);
 	teachers = teachers.filter((item, pos) => teachers.indexOf(item) === pos);
+	teachers = teachers.map(teacher => teacher.replace('Ö', 'OE').replace('Ä', 'AE').replace('Ü', 'UE'));
 	teachers.forEach(teacher => {
 		let sp = allSp.filter(a => a.teacher === teacher);
 		fs.writeFileSync(path.resolve(__dirname, '..', '..', 'output', 'sp', teacher + '.json'), JSON.stringify(sp, null, 2));
