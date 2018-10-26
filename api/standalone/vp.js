@@ -9,13 +9,13 @@ let config = require('../config.js');
 let lastToday = '';
 try {
 	lastToday = fs.readFileSync(path.resolve(__dirname, '..', '..', 'output', 'vp', 'today.txt'), 'utf-8');
-} catch(e) {
+} catch (e) {
 
 }
 let lastTomorrow = '';
 try {
 	lastTomorrow = fs.readFileSync(path.resolve(__dirname, '..', '..', 'output', 'vp', 'tomorrow.txt'), 'utf-8');
-} catch(e) {
+} catch (e) {
 
 }
 let vpToday = {};
@@ -109,7 +109,8 @@ this.getVP = (today, callback) => {
 									}
 									try {
 										data.unit = parseInt(text.split(' ')[1].slice(0, -1));
-									} catch(e) {}
+									} catch (e) {
+									}
 								} else if (j === 1) {
 									text = text.replace(/\n/g, ' ').replace('(', '').replace(')', '');
 									while (text.includes('  ')) {
@@ -162,7 +163,8 @@ this.getVP = (today, callback) => {
 											data.lesson = text.split(' ')[1].toUpperCase();
 											data.type = text.split(' ')[2].toUpperCase();
 											data.room = text.split(' ')[3].toUpperCase();
-										} catch(e) {}
+										} catch (e) {
+										}
 									}
 								} else {
 									text = text.replace('\n', ' ');
@@ -231,7 +233,8 @@ this.getVP = (today, callback) => {
 								} else {
 									vpTomorrow[data.grade].changes.push(data);
 								}
-							} catch(e) {}
+							} catch (e) {
+							}
 						}
 					} catch
 						(e) {
@@ -266,7 +269,6 @@ this.getVP = (today, callback) => {
 };
 
 this.onVPUpdate = (grade, data) => {
-	console.log(grade);
 	firebase.send(grade, JSON.stringify(data));
 };
 
