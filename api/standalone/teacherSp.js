@@ -42,7 +42,19 @@ this.readAllSps().then(allSp => {
 	teachers = teachers.filter((item, pos) => teachers.indexOf(item) === pos);
 	teachers = teachers.map(teacher => teacher.replace('Ö', 'OE').replace('Ä', 'AE').replace('Ü', 'UE'));
 	teachers.forEach(teacher => {
-		let sp = allSp.filter(a => a.teacher === teacher);
+		let data = allSp.filter(a => a.teacher === teacher);
+		let weekdays = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag'];
+		let sp = [];
+		weekdays.forEach(weekday => {
+			sp.push({
+				name: weekday,
+				lessons: data.filter(d => d.weekday === weekday).map(d => ([{
+					teacher: d.grade,
+					lesson: d.subject,
+					room: d.room
+				}]))
+			});
+		});
 		fs.writeFileSync(path.resolve(__dirname, '..', '..', 'output', 'sp', teacher + '.json'), JSON.stringify(sp, null, 2));
 	});
 	console.log('Generated teacher sp');
