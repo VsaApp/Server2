@@ -50,7 +50,7 @@ this.readAllSps().then(allSp => {
 				name: weekday,
 				lessons: []
 			};
-			for (let i = 0; i < 10; i++) {
+			for (let i = 0; i < 9; i++) {
 				a.lessons.push([]);
 			}
 			data.filter(d => d.weekday === weekday).forEach(d => {
