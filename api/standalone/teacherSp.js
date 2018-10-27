@@ -46,14 +46,24 @@ this.readAllSps().then(allSp => {
 		let weekdays = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag'];
 		let sp = [];
 		weekdays.forEach(weekday => {
-			sp.push({
+			let a = {
 				name: weekday,
-				lessons: data.filter(d => d.weekday === weekday).map(d => ([{
+				lessons: []
+			};
+			for (let i = 0; i < 10; i++) {
+				a.lessons.push([]);
+			}
+			data.filter(d => d.weekday === weekday).forEach(d => {
+				if (teacher === 'SND') {
+					console.log(d);
+				}
+				a.lessons[d.lesson] = [{
 					teacher: d.grade,
 					lesson: d.subject,
 					room: d.room
-				}]))
+				}];
 			});
+			sp.push(a);
 		});
 		fs.writeFileSync(path.resolve(__dirname, '..', '..', 'output', 'sp', teacher + '.json'), JSON.stringify(sp, null, 2));
 	});
