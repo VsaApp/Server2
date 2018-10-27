@@ -54,9 +54,6 @@ this.readAllSps().then(allSp => {
 				a.lessons.push([]);
 			}
 			data.filter(d => d.weekday === weekday).forEach(d => {
-				if (teacher === 'SND') {
-					console.log(d);
-				}
 				a.lessons[d.lesson] = [{
 					teacher: d.grade,
 					lesson: d.subject,
