@@ -90,6 +90,7 @@ a.forEach(today => {
 				update: allVp[0].update,
 				weekday: allVp[0].weekday,
 				changes: data.map(b => {
+					b.teacher = b.grade;
 					delete b.date;
 					delete b.time;
 					delete b.update;
