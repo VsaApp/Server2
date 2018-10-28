@@ -2,6 +2,35 @@ const fs = require('fs');
 const path = require('path');
 const firebase = require('../firebase.js');
 
+let lastTeacherToday = '';
+try {
+	lastTeacherToday = fs.readFileSync(path.resolve(__dirname, '..', '..', 'output', 'vp', 'teachertoday.txt'), 'utf-8');
+} catch (e) {
+
+}
+let lastTeacherTomorrow = '';
+try {
+	lastTeacherTomorrow = fs.readFileSync(path.resolve(__dirname, '..', '..', 'output', 'vp', 'teachertomorrow.txt'), 'utf-8');
+} catch (e) {
+
+}
+
+let lastToday = '';
+try {
+	lastToday = fs.readFileSync(path.resolve(__dirname, '..', '..', 'output', 'vp', 'today.txt'), 'utf-8');
+} catch (e) {
+
+}
+let lastTomorrow = '';
+try {
+	lastTomorrow = fs.readFileSync(path.resolve(__dirname, '..', '..', 'output', 'vp', 'tomorrow.txt'), 'utf-8');
+} catch (e) {
+
+}
+
+fs.writeFileSync(path.resolve(__dirname, '..', '..', 'output', 'vp', 'teachertoday.txt'), lastToday);
+fs.writeFileSync(path.resolve(__dirname, '..', '..', 'output', 'vp', 'teachertomorrow.txt'), lastTomorrow);
+
 const grades = [];
 for (let i = 5; i < 10; i++) {
 	for (let j = 0; j < 3; j++) {
@@ -42,7 +71,15 @@ this.readAllVps = today => {
 	});
 };
 
-[true, false].forEach(today => {
+let a = [];
+if (lastTeacherToday !== lastToday) {
+	a.push(true);
+}
+if (lastTeacherTomorrow !== lastTomorrow) {
+	a.push(false);
+}
+
+a.forEach(today => {
 	this.readAllVps(today).then(allVp => {
 		let teachers = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', 'output', 'teachers', 'list.json'), 'utf-8')).map(teacher => teacher.shortName);
 		teachers.forEach(teacher => {
