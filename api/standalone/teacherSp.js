@@ -16,9 +16,9 @@ this.readAllSps = () => {
 		let sp = [];
 		grades.forEach(grade => {
 			let data = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', 'output', 'sp', grade + '.json'), 'utf-8'));
-			data.map(day => {
-				day.lessons.map((lesson, i) => {
-					lesson.map(subject => {
+			data.forEach(day => {
+				day.lessons.forEach((lesson, i) => {
+					lesson.forEach(subject => {
 						if (subject) {
 							sp.push({
 								weekday: day.name,
@@ -38,9 +38,7 @@ this.readAllSps = () => {
 };
 
 this.readAllSps().then(allSp => {
-	let teachers = allSp.map(a => a.teacher);
-	teachers = teachers.filter((item, pos) => teachers.indexOf(item) === pos);
-	teachers = teachers.map(teacher => teacher.replace('Ö', 'OE').replace('Ä', 'AE').replace('Ü', 'UE'));
+	let teachers = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', 'output', 'teachers', 'list.json'), 'utf-8')).map(teacher => teacher.shortName);
 	teachers.forEach(teacher => {
 		let data = allSp.filter(a => a.teacher === teacher);
 		let weekdays = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag'];

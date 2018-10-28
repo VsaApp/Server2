@@ -227,6 +227,12 @@ this.getVP = (today, callback) => {
 								.replace(/GRHA|GRH/, 'große Halle')
 								.replace('KU1', 'Kunst 1')
 								.replace('KU2', 'Kunst 2');
+							if (data.teacher === '') {
+								if (data.grade !== '') {
+									let weekday = (today ? vpToday[data.grade].weekday : vpTomorrow[data.grade].weekday);
+									data.teacher = getTeacher(data.grade, weekday, data.unit - 1);
+								}
+							}
 							try {
 								if (today) {
 									vpToday[data.grade].changes.push(data);
@@ -267,6 +273,40 @@ this.getVP = (today, callback) => {
 		).auth(config.username, config.password, false);
 	});
 };
+
+let sp = [].concat.apply([], fs.readdirSync(path.resolve(__dirname, '..', '..', 'output', 'sp')).filter(file => {
+	return !['EF', 'Q1', 'Q2'].includes(file.replace('.json', '')) && file.replace('.json', '').toUpperCase() === file.replace('.json', '');
+}).map(file => {
+	let data = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', 'output', 'sp', file), 'utf-8'));
+	let subjects = [];
+	data.forEach(a => {
+		a.lessons.forEach((b, unit) => {
+			b.forEach(c => {
+				let d = {
+					teacher: file.replace('.json', ''),
+					lesson: c.lesson,
+					room: c.room,
+					grade: c.teacher,
+					unit: unit,
+					weekday: a.name
+				};
+				subjects.push(d);
+			});
+		});
+	});
+	return subjects;
+}));
+
+function getTeacher(grade, weekday, unit) {
+	try {
+		return sp.filter(s => {
+			return s.grade === grade && s.weekday === weekday && s.unit === unit;
+		})[0].teacher;
+	} catch (e) {
+		console.error('Couldn\'t find matching teacher for ', grade, weekday, unit);
+		return '';
+	}
+}
 
 this.onVPUpdate = (grade, data) => {
 	firebase.send(grade, JSON.stringify(data));
