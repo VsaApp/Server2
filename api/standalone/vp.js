@@ -314,7 +314,7 @@ function getTeacher(grade, weekday, unit) {
 }
 
 this.onVPUpdate = (grade, data) => {
-	//firebase.send(grade, JSON.stringify(data));
+	firebase.send(grade, JSON.stringify(data));
 };
 
 this.getVP(true, this.onVPUpdate).then(vp => {
