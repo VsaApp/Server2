@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const firebase = require('../firebase.js');
 
 const grades = [];
 for (let i = 5; i < 10; i++) {
@@ -59,6 +60,7 @@ this.readAllVps = today => {
 					return b;
 				})
 			};
+			firebase.send(teacher.replace('Ü', 'UE').replace('Ä', 'AE').replace('Ö', 'OE'), JSON.stringify(vp));
 			fs.writeFileSync(path.resolve(__dirname, '..', '..', 'output', 'vp', (today ? 'today' : 'tomorrow'), teacher + '.json'), JSON.stringify(vp, null, 2));
 		});
 		console.log('Generated teacher vp for ' + (today ? 'today' : 'tomorrow'));

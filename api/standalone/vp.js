@@ -21,6 +21,8 @@ try {
 let vpToday = {};
 let vpTomorrow = {};
 
+let unchanged = 0;
+
 this.getVP = (today, callback) => {
 	return new Promise(resolve => {
 		request('http://www.viktoriaschule-aachen.de/sundvplan/vps/' + (today ? 'left' : 'right') + '.html', (error, response, body) => {
@@ -267,7 +269,10 @@ this.getVP = (today, callback) => {
 					}
 				} else {
 					console.log('Vp of ' + (today ? 'today' : 'tomorrow') + ' not changed');
-					resolve([]);
+					unchanged++;
+					if (unchanged === 2) {
+						process.exit(1);
+					}
 				}
 			}
 		).auth(config.username, config.password, false);
