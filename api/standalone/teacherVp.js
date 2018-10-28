@@ -61,6 +61,6 @@ this.readAllVps = today => {
 			};
 			fs.writeFileSync(path.resolve(__dirname, '..', '..', 'output', 'vp', (today ? 'today' : 'tomorrow'), teacher + '.json'), JSON.stringify(vp, null, 2));
 		});
-		console.log('Generated teacher vp for' + (today ? 'today' : 'tomorrow'));
+		console.log('Generated teacher vp for ' + (today ? 'today' : 'tomorrow'));
 	});
 });
