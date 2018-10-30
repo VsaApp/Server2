@@ -219,6 +219,12 @@ this.getVP = (today, callback) => {
 									data.changed.info = data.changed.info.trim();
 								}
 							}
+							if (data.teacher === '') {
+								if (data.grade !== '') {
+									let weekday = (today ? vpToday[data.grade].weekday : vpTomorrow[data.grade].weekday);
+									data.teacher = getTeacher(data.grade, weekday, data.unit - 1, data.lesson, data.room);
+								}
+							}
 							data.changed.room = data.changed.room
 								.replace(/KLHA|KLH/, 'kleine Halle')
 								.replace(/GRHA|GRH/, 'große Halle')
@@ -229,12 +235,6 @@ this.getVP = (today, callback) => {
 								.replace(/GRHA|GRH/, 'große Halle')
 								.replace('KU1', 'Kunst 1')
 								.replace('KU2', 'Kunst 2');
-							if (data.teacher === '') {
-								if (data.grade !== '') {
-									let weekday = (today ? vpToday[data.grade].weekday : vpTomorrow[data.grade].weekday);
-									data.teacher = getTeacher(data.grade, weekday, data.unit - 1);
-								}
-							}
 							try {
 								if (today) {
 									vpToday[data.grade].changes.push(data);
@@ -302,13 +302,13 @@ let sp = [].concat.apply([], fs.readdirSync(path.resolve(__dirname, '..', '..', 
 	return subjects;
 }));
 
-function getTeacher(grade, weekday, unit) {
+function getTeacher(grade, weekday, unit, subject, room) {
 	try {
 		return sp.filter(s => {
-			return s.grade === grade && s.weekday === weekday && s.unit === unit;
+			return s.grade === grade && s.weekday === weekday && s.unit === unit && s.lesson === subject && s.room === room;
 		})[0].teacher;
 	} catch (e) {
-		console.error('Couldn\'t find matching teacher for ', grade, weekday, unit);
+		console.error('Couldn\'t find matching teacher for ', grade, weekday, unit, subject, room);
 		return '';
 	}
 }
