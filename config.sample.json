@@ -6,5 +6,7 @@
     "HIN": "female",
     "SND": "male",
     "SER": "female"
-  }
+  },
+  "cafetoria_default_id": "123",
+  "cafetoria_default_pin": "abc"
 }
