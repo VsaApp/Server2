@@ -226,15 +226,15 @@ this.getVP = (today, callback) => {
 								}
 							}
 							data.changed.room = data.changed.room
-								.replace(/KLHA|KLH/, 'kleine Halle')
-								.replace(/GRHA|GRH/, 'große Halle')
-								.replace('KU1', 'Kunst 1')
-								.replace('KU2', 'Kunst 2');
+								.replace(/KLHA|KLH/, 'klH')
+								.replace(/GRHA|GRH/, 'grH')
+								.replace('KU1', 'ku1')
+								.replace('KU2', 'ku2');
 							data.room = data.room
-								.replace(/KLHA|KLH/, 'kleine Halle')
-								.replace(/GRHA|GRH/, 'große Halle')
-								.replace('KU1', 'Kunst 1')
-								.replace('KU2', 'Kunst 2');
+								.replace(/KLHA|KLH/, 'klH')
+								.replace(/GRHA|GRH/, 'grH')
+								.replace('KU1', 'ku1')
+								.replace('KU2', 'ku2');
 							try {
 								if (today) {
 									vpToday[data.grade].changes.push(data);
