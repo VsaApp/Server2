@@ -112,9 +112,6 @@ this.strToLesson = (str, multi) => {
 			room: arr[2]
 		};
 	}
-	if (/^[a-z]$/m.test(obj.room)) {
-		return;
-	}
 	return obj;
 };
 
